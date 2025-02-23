@@ -6,7 +6,7 @@
 [![Codecov](https://codecov.io/gh/your-username/PyFruit-Quest-Terminal-Game/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/PyFruit-Quest-Terminal-Game)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-> A Python-based terminal game developed as part of the **Testautomatsering Python** course at Stockholm University
+> A Python-based terminal game developed as part of the **Testautomatsering Python** course at NBI/Handelsakademin
 
 <p align="center">
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZThiYzY1YjMxYjM5Y2RjOGFmYzJhYTg1M2QxMjUwYjAxY2NlOTUzNiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o7btT1T9qpQZWhNl6/giphy.gif" width="600" alt="Game Demo">
