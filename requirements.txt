@@ -1,0 +1,6 @@
+# Core Requirements
+pytest==8.0.2
+coverage==7.3.2
+black==24.3.0
+flake8==7.0.0
+python-dateutil==2.9.0

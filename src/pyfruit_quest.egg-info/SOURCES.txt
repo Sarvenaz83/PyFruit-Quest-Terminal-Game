@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/game.py
+src/grid.py
+src/pickups.py
+src/player.py
+src/pyfruit_quest.egg-info/PKG-INFO
+src/pyfruit_quest.egg-info/SOURCES.txt
+src/pyfruit_quest.egg-info/dependency_links.txt
+src/pyfruit_quest.egg-info/requires.txt
+src/pyfruit_quest.egg-info/top_level.txt
