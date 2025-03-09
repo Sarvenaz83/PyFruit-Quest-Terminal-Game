@@ -1,70 +1,59 @@
 import random
 
+from src.constants import  SYMBOLS
+
 class Grid:
-    """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
-    width = 36
-    height = 12
-    empty = "."  # Tecken för en tom ruta
-    wall = "■"   # Tecken för en ogenomtränglig vägg
+    def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
+        self.grid = [[SYMBOLS['empty']]* cols for _ in range(rows)]
+        self.generate_walls()
 
-    def __init__(self):
-        """Skapa ett objekt av klassen Grid"""
-        # Spelplanen lagras i en lista av listor. Vi använder "list comprehension" för att sätta tecknet för "empty" på varje plats på spelplanen.
-        self.data = [[self.empty for y in range(self.width)] for z in range(
-            self.height)]
+    def generate_walls(self):
+        for x in range(self.cols):
+            self.grid[0][x] = SYMBOLS['wall']
+            self.grid[self.rows - 1][x] = SYMBOLS['wall']
+        for y in range(self.rows):
+            self.grid[y][0] = SYMBOLS['wall']
+            self.grid[y][self.cols - 1] = SYMBOLS['wall']
+        for y in range(1, self.cols - 1, 2):
+            if y % 2 == 0:
+                self.grid[y][self.rows - 1] = SYMBOLS['wall']
 
-
-    def get(self, x, y):
-        """Hämta det som finns på en viss position"""
-        return self.data[y][x]
-
-    def set(self, x, y, value):
-        """Ändra vad som finns på en viss position"""
-        self.data[y][x] = value
-
-    def set_player(self, player):
-        self.player = player
-
-    def clear(self, x, y):
-        """Ta bort item från position"""
-        self.set(x, y, self.empty)
-
-    def __str__(self):
-        """Gör så att vi kan skriva ut spelplanen med print(grid)"""
-        xs = ""
-        for y in range(len(self.data)):
-            row = self.data[y]
-            for x in range(len(row)):
-                if x == self.player.pos_x and y == self.player.pos_y:
-                    xs += "@"
-                else:
-                    xs += str(row[x])
-            xs += "\n"
-        return xs
+        for _ in range(10):
+            x, y = random.randint(2, self.cols - 3), random.randint(1, self.rows - 2)
+            self.grid[y][x] = SYMBOLS['wall']
 
 
-    def make_walls(self):
-        """Skapa väggar runt hela spelplanen"""
-        for i in range(self.height):
-            self.set(0, i, self.wall)
-            self.set(self.width - 1, i, self.wall)
-
-        for j in range(1, self.width - 1):
-            self.set(j, 0, self.wall)
-            self.set(j, self.height - 1, self.wall)
-
-
-    # Används i filen pickups.py
-    def get_random_x(self):
-        """Slumpa en x-position på spelplanen"""
-        return random.randint(0, self.width-1)
-
-    def get_random_y(self):
-        """Slumpa en y-position på spelplanen"""
-        return random.randint(0, self.height-1)
-
+    def is_within_bounds(self, x, y):
+        return 0 <= x < self.cols and 0 <= y < self.rows
 
     def is_empty(self, x, y):
-        """Returnerar True om det inte finns något på aktuell ruta"""
-        return self.get(x, y) == self.empty
+        return self.grid[y][x] == SYMBOLS['empty']
 
+    def place_item(self, x, y, item):
+        if self.is_within_bounds(x, y):
+            self.grid[y][x] = item
+
+    def remove_item(self, x, y):
+        if self.is_within_bounds(x, y):
+            self.grid[y][x] = SYMBOLS['empty']
+
+    def get_item(self, x, y):
+        if self.is_within_bounds(x, y):
+            return self.grid[y][x]
+        return None
+
+
+    def move_entity(self, entity, new_x, new_y):
+        if self.is_within_bounds(new_x, new_y) and self.is_empty(new_x, new_y):
+            self.remove_item(entity.x, entity.y)
+            entity.x = new_x, entity.y = new_y
+            self.place_item(new_x, new_y, entity.symbol)
+
+    def render(self):
+        for row in self.grid:
+            print("".join(
+                str(cell) if isinstance(cell, str) else SYMBOLS.get(cell.__class__.__name__.lower(), "?")
+                for cell in row
+            ))

@@ -1,20 +1,23 @@
+from src.constants import INITIAL_SCORE, ROWS, COLS
+
+
 class Player:
-    marker = "@"
 
-    def __init__(self, x, y):
-        self.pos_x = x
-        self.pos_y = y
+    def __init__(self):
+        self.reset(self)
 
-    # Flyttar spelaren. "dx" och "dy" är skillnaden
-    def move(self, dx, dy):
-        """Flyttar spelaren.\n
-        dx = horisontell förflyttning, från vänster till höger\n
-        dy = vertikal förflyttning, uppifrån och ned"""
-        self.pos_x += dx
-        self.pos_y += dy
+    @staticmethod
+    def reset(self):
+        self.x = COLS // 2
+        self.y = ROWS // 2
+        self.score = INITIAL_SCORE
+        self.inventory = []
+        self.steps = 0
+        self.active_bombs = []
 
-    def can_move(self, x, y, grid):
-        return True
-        #TODO: returnera True om det inte står något i vägen
+    def move(self, dx: int, dy: int):
+       self.x += dx
+       self.y += dy
+       self.steps += 1
 
 
